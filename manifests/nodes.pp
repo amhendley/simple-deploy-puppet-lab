@@ -1,3 +1,3 @@
-node 'Blackbox.fritz.box' {
+node 'puppet-lab' {
 	include nginx
 }
