@@ -14,9 +14,13 @@ class nginx {
 		require => Package['nginx'],
 		enable => true,
 	}
-
+	
 	file { '/etc/nginx/sites-enabled/default':
-		source => 'puppet:///modules/nginx/simple-deployment-app.conf',
-		notify => Service['nginx'],
+		ensure => absent,
 	}
+
+	file { '/var/www':
+		ensure => "directory",
+	}
+	
 }
