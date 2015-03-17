@@ -10,7 +10,7 @@ class git::install{
 
 define git::clone ( $path, $dir){
     exec { "clone-$name-$path":
-        command => "git clone $name $path/$dir",
+        command => "/usr/bin/git clone $name $path/$dir",
         creates => "$path/$dir",
         require => [Class["git"], File[$path]],
     }
