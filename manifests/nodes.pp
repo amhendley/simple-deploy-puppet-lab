@@ -32,4 +32,5 @@ node 'puppet-lab' {
 		target => '/etc/nginx/sites-available/$site_name',
 		notify => Service['nginx']
 	}	
+	
 }
