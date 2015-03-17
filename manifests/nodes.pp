@@ -6,7 +6,7 @@ node 'puppet-lab' {
 
 	git::clone { 'https://github.com/tnh/simple-sinatra-app':
 		path => '/var/www',
-		dir => '$site_name',
+		dir => <%= @site_name %>,
 	}
 	
 	exec { 'site-install':
@@ -20,7 +20,7 @@ node 'puppet-lab' {
 			Package['nginx'],
 			File['/var/www'],
 		]
-		ensure => file,
+		ensure => 'file',
 		content => template('nginx/simple-deployment.conf.erb'),
 		
 		notify => Service['nginx']
@@ -28,7 +28,7 @@ node 'puppet-lab' {
 	
 	file { '/etc/nginx/sites-enabled/$site_name':
 		require => File['/etc/nginx/sites-available/$site_name'],
-		ensure => link,
+		ensure => 'link',
 		target => '/etc/nginx/sites-available/$site_name',
 		notify => Service['nginx']
 	}	
