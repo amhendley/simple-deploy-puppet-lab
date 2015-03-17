@@ -19,17 +19,17 @@ node 'puppet-lab' {
 		require => [
 			Package['nginx'],
 			File['/var/www'],
-		]
+		],
 		ensure => file,
 		content => template('nginx/simple-deployment.conf.erb'),
 		
-		notify => Service['nginx']
+		notify => Service['nginx'],
 	}
 	
 	file { '/etc/nginx/sites-enabled/$site_name':
 		require => File['/etc/nginx/sites-available/$site_name'],
 		ensure => link,
 		target => '/etc/nginx/sites-available/$site_name',
-		notify => Service['nginx']
+		notify => Service['nginx'],
 	}	
 }
