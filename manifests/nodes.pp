@@ -6,7 +6,7 @@ node 'puppet-lab' {
 
 	git::clone { 'https://github.com/tnh/simple-sinatra-app':
 		path => '/var/www',
-		dir => '$site_name',
+		dir => $site_name,
 	}
 	
 	package { 'bundler':
@@ -20,7 +20,7 @@ node 'puppet-lab' {
 		require => Package['bundler'],
 	}	
 
-	file { '/etc/nginx/sites-available/$site_name':
+	file { '/etc/nginx/sites-available/'$site_name:
 		require => [
 			Package['nginx'],
 			File['/var/www'],
@@ -32,9 +32,9 @@ node 'puppet-lab' {
 	}
 	
 	file { '/etc/nginx/sites-enabled/$site_name':
-		require => File['/etc/nginx/sites-available/$site_name'],
+		require => File['/etc/nginx/sites-available/'$site_name],
 		ensure => link,
-		target => '/etc/nginx/sites-available/$site_name',
+		target => '/etc/nginx/sites-available/'$site_name,
 		notify => Service['nginx'],
 	}	
 }
