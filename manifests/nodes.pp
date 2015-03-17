@@ -9,11 +9,16 @@ node 'puppet-lab' {
 		dir => '$site_name',
 	}
 	
+	package { 'bundler':
+		ensure   => 'installed',
+		provider => 'gem',	
+	}
+	
 	exec { 'site-install':
 		cwd => '/var/www/$site_name',
 		command => 'bundle install && bundle exec rackup',
+		require => Package['bundler'],
 	}	
-
 
 	file { '/etc/nginx/sites-available/$site_name':
 		require => [
