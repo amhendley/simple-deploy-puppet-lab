@@ -32,9 +32,9 @@ node 'puppet-lab' {
 	}
 	
 	file { '/etc/nginx/sites-enabled/simple-deployment':
-		require => File['/etc/nginx/sites-available/'$site_name],
+		require => File['/etc/nginx/sites-available/${site_name}'],
 		ensure => link,
-		target => '/etc/nginx/sites-available/'$site_name,
+		target => '/etc/nginx/sites-available/${site_name}',
 		notify => Service['nginx'],
 	}	
 }
