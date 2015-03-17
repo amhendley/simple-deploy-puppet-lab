@@ -11,7 +11,7 @@ node 'puppet-lab' {
 	
 	exec { 'site-install':
 		cwd => '/var/www/$site_name',
-		command => 'bundle install',
+		command => 'bundle install && bundle exec rackup',
 	}	
 
 
@@ -32,5 +32,4 @@ node 'puppet-lab' {
 		target => '/etc/nginx/sites-available/$site_name',
 		notify => Service['nginx']
 	}	
-	
 }
