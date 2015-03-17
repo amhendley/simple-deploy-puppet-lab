@@ -20,7 +20,7 @@ node 'puppet-lab' {
 		require => Package['bundler'],
 	}	
 
-	file { '/etc/nginx/sites-available/'$site_name:
+	file { '/etc/nginx/sites-available/simple-deployment':
 		require => [
 			Package['nginx'],
 			File['/var/www'],
@@ -31,7 +31,7 @@ node 'puppet-lab' {
 		notify => Service['nginx'],
 	}
 	
-	file { '/etc/nginx/sites-enabled/$site_name':
+	file { '/etc/nginx/sites-enabled/simple-deployment':
 		require => File['/etc/nginx/sites-available/'$site_name],
 		ensure => link,
 		target => '/etc/nginx/sites-available/'$site_name,
