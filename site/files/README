@@ -1,0 +1,34 @@
+# Simple Deployment
+
+This repo contains a simple Sinatra application.
+
+Write configuration code that deploys this application onto a vanilla OS image.
+
+## Parameters
+
+- Use a vanilla image, e.g. Centos/Fedora/Ubuntu/Debian/RHEL
+- Use a web/application server of your choosing
+- Serve up the application on port 80
+- Ensure that the server is locked down and secure
+- Actually deploy the application
+
+## Deliverables
+
+- Chef/Puppet/Ansible/Babushka/Shell scripts that we can use to deploy the application.
+
+## Local
+
+```
+git clone git://github.com/tnh/simple-sinatra-app.git
+shell $ bundle install
+shell $ bundle exec rackup
+```
+
+## Credits
+
+This code test is based on others we have encountered in the public domain, in particular:
+
+[https://github.com/tnh/simple-sinatra-app](https://github.com/tnh/simple-sinatra-app)
+
+Thanks to the authors for making their contributions publicly available.
+
