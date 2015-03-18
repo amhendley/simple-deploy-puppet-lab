@@ -1,10 +1,6 @@
 class git {
-    include git::install
-}
-
-class git::install {
-    package { "git":
-        ensure => present,
+    package { 'git':
+        ensure => installed,
     }
 }
 
@@ -12,6 +8,6 @@ define git::clone ( $path, $dir) {
     exec { "clone-$name-$path":
         command => "/usr/bin/git clone $name $path/$dir",
         creates => "$path/$dir",
-        require => [Class["git::install"], File[$path]],
+        require => [Class["git"], File[$path]],
     }
 }
