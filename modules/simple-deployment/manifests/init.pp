@@ -13,13 +13,13 @@ class simple-deployment {
 	
 	file { '/usr/bin/simple-deployment':
 		ensure => file,
-		content => template('simple-deployment/files/exec-simple-deployment'),
+		content => template('simple-deployment/exec-simple-deployment'),
 		require => Exec['site-install'],
 	}	
 
 	file { '/etc/init.d/simple-deployment-daemon':
 		ensure => file,
-		content => template('simple-deployment/files/simple-deployment-daemon'),
+		content => template('simple-deployment/simple-deployment-daemon'),
 		require => [Exec['site-install'], File['/usr/bin/simple-deployment']],
 	}	
 

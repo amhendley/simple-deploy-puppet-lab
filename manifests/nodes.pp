@@ -13,7 +13,7 @@ node 'puppet-lab' {
 		],
 		ensure => file,
 		content => template('nginx/simple-deployment.conf.erb'),
-		require => Exec['site-run'],
+		require => Service['simple-deployment-daemon'],
 		notify => Service['nginx'],
 	}
 	
@@ -21,7 +21,7 @@ node 'puppet-lab' {
 		require => File["/etc/nginx/sites-available/${site_name}"],
 		ensure => link,
 		target => "/etc/nginx/sites-available/${site_name}",
-		require => Exec['site-run'],
+		require => [Exec['simple-deployment-daemon'], File["/etc/nginx/sites-available/${site_name}"]],
 		notify => Service['nginx'],
 	}	
 
