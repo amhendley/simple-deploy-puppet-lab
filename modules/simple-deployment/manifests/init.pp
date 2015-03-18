@@ -6,12 +6,11 @@ class simple-deployment {
 	}
 	
 	exec { 'site-install':
-		cwd => "/var/www/${site_name}",
+		cwd => "/var/www/simple-deployment",
 		command => '/usr/local/bin/bundle install',
 		user => "root",
 		group => "root",
 		logoutput => true,
-		unless => '/usr/local/bin/bundle check',
 		environment => "HOME=/root",
 		require => [
 			Package['bundler'], 
