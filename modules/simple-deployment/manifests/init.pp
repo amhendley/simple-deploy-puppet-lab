@@ -11,7 +11,7 @@ class simple-deployment {
 		user => "root",
 		group => "root",
 		logoutput => on_failure,
-		unless => 'bundle check',
+		unless => '/usr/local/bin/bundle check',
 		environment => "HOME='/var/www/${site_name}'",
 		require => [
 			Package['bundler'], 
