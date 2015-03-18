@@ -1,5 +1,5 @@
 class git {
-    include git::install,
+    include git::install
 }
 
 class git::install {
