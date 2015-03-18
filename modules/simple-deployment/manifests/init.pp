@@ -12,7 +12,7 @@ class simple-deployment {
 		group => "root",
 		logoutput => on_failure,
 		unless => '/usr/local/bin/bundle check',
-		environment => "HOME='/var/www/${site_name}'",
+		environment => "HOME=/root",
 		require => [
 			Package['bundler'], 
 			Class['ruby'], 
