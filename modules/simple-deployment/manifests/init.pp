@@ -8,7 +8,11 @@ class simple-deployment {
 	exec { 'site-install':
 		cwd => "/var/www/${site_name}",
 		command => '/usr/local/bin/bundle install',
-		require => [Package['bundler'], Class['ruby'], File['/var/www']],
+		require => [
+			Package['bundler'], 
+			Class['ruby'], 
+			File['/var/www']
+		],
 	}	
 	
 	file { '/usr/bin/simple-deployment':
@@ -20,7 +24,10 @@ class simple-deployment {
 	file { '/etc/init.d/simple-deployment-daemon':
 		ensure => file,
 		content => template('simple-deployment/simple-deployment-daemon'),
-		require => [Exec['site-install'], File['/usr/bin/simple-deployment']],
+		require => [
+			Exec['site-install'], 
+			File['/usr/bin/simple-deployment']
+		],
 	}	
 
 	service { 'simple-deployment-daemon':

@@ -1,7 +1,7 @@
 node 'puppet-lab' {
+	include simple-deployment
 	include nginx
 	include ruby
-	include simple-deployment
 
 	$site_name = 'simple-deployment'
 	$site_domain = 'simple-deployment.com'
@@ -21,7 +21,7 @@ node 'puppet-lab' {
 		ensure => link,
 		target => "/etc/nginx/sites-available/${site_name}",
 		require => [
-			Exec['simple-deployment-daemon'], 
+			Service['simple-deployment-daemon'], 
 			File["/etc/nginx/sites-available/${site_name}"]
 		],
 		notify => Service['nginx'],
