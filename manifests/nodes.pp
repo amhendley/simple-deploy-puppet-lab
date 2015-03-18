@@ -3,8 +3,8 @@ node 'puppet-lab' {
 	include nginx
 	include ruby
 
-	$site_name = 'simple-deployment'
-	$site_domain = 'simple-deployment.com'
+	$::site_name = 'simple-deployment'
+	$::site_domain = 'simple-deployment.com'
 
 	file { "/etc/nginx/sites-available/${site_name}":
 		require => [

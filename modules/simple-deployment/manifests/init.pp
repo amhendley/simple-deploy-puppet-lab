@@ -16,7 +16,7 @@ class simple-deployment {
 		require => [
 			Package['bundler'], 
 			Class['ruby'], 
-			File['/var/www']
+			File["/var/www/${site_name}"],
 		],
 	}	
 	
