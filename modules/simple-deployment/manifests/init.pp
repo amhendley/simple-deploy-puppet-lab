@@ -10,6 +10,7 @@ class simple-deployment {
 		command => '/usr/local/bin/bundle install',
 		user => "root",
 		group => "root",
+		output => true,
 		logoutput => on_failure,
 		unless => '/usr/local/bin/bundle check',
 		environment => "HOME=/root",
