@@ -29,7 +29,7 @@ class simple-deployment {
 	file { '/etc/init.d/simple-deployment-daemon':
 		ensure => file,
 		content => template('simple-deployment/simple-deployment-daemon'),
-		* 
+		mode => 777,
 		require => [
 			Exec['site-install'], 
 			File['/usr/bin/simple-deployment']
