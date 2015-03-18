@@ -22,12 +22,14 @@ class simple-deployment {
 	file { '/usr/bin/simple-deployment':
 		ensure => file,
 		content => template('simple-deployment/exec-simple-deployment'),
+		mode => 777,
 		require => Exec['site-install'],
 	}	
 
 	file { '/etc/init.d/simple-deployment-daemon':
 		ensure => file,
 		content => template('simple-deployment/simple-deployment-daemon'),
+		* 
 		require => [
 			Exec['site-install'], 
 			File['/usr/bin/simple-deployment']
