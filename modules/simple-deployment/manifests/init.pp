@@ -8,6 +8,11 @@ class simple-deployment {
 	exec { 'site-install':
 		cwd => "/var/www/${site_name}",
 		command => '/usr/local/bin/bundle install',
+		user => "root",
+		group => "root",
+		logoutput => on_failure,
+		unless => 'bundle check',
+		environment => "HOME='/var/www/${site_name}'",
 		require => [
 			Package['bundler'], 
 			Class['ruby'], 
