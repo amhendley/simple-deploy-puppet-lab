@@ -1,25 +1,10 @@
 node 'puppet-lab' {
 	include nginx
+	include ruby
+	include simple-deployment
 
 	$site_name = 'simple-deployment'
 	$site_domain = 'simple-deployment.com'
-
-	git::clone { 'https://github.com/tnh/simple-sinatra-app':
-		path => '/var/www',
-		dir => $site_name,
-	}
-	
-	package { 'bundler':
-		ensure   => 'installed',
-		provider => 'gem',	
-	}
-	
-	exec { 'site-install':
-		cwd => "/var/www/${site_name}",
-		command => '/usr/local/bin/bundle install',
-		#command => '/usr/local/bin/bundle install && /usr/local/bin/bundle exec rackup',
-		require => Package['bundler'],
-	}	
 
 	file { "/etc/nginx/sites-available/${site_name}":
 		require => [
@@ -28,7 +13,7 @@ node 'puppet-lab' {
 		],
 		ensure => file,
 		content => template('nginx/simple-deployment.conf.erb'),
-		
+		require => Exec['site-run'],
 		notify => Service['nginx'],
 	}
 	
@@ -36,6 +21,8 @@ node 'puppet-lab' {
 		require => File["/etc/nginx/sites-available/${site_name}"],
 		ensure => link,
 		target => "/etc/nginx/sites-available/${site_name}",
+		require => Exec['site-run'],
 		notify => Service['nginx'],
 	}	
+
 }

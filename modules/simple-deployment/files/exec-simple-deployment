@@ -1,0 +1,4 @@
+#! /bin/sh
+
+cd /var/www/simple-deployment
+bundle exec rackup -D
