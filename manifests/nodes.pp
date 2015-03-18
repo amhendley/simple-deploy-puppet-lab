@@ -16,7 +16,8 @@ node 'puppet-lab' {
 	
 	exec { 'site-install':
 		cwd => "/var/www/${site_name}",
-		command => '/usr/local/bin/bundle install && /usr/local/bin/bundle exec rackup',
+		command => '/usr/local/bin/bundle install',
+		#command => '/usr/local/bin/bundle install && /usr/local/bin/bundle exec rackup',
 		require => Package['bundler'],
 	}	
 
