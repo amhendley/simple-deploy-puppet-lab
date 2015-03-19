@@ -2,16 +2,10 @@ $site_name = 'simple-deployment'
 $site_domain = 'simple-deployment.com'
 
 node 'puppet-lab' {
+	include simple-deployment
 	include nginx
 	include ruby
 
-	git::clone { 'https://github.com/tnh/simple-sinatra-app':
-		path => '/var/www',
-		dir => $site_name,
-	}
-
-	include simple-deployment
-	
 	file { "/etc/nginx/sites-available/${site_name}":
 		require => [
 			Package['nginx'],

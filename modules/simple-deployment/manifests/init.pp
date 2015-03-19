@@ -1,5 +1,10 @@
 class simple-deployment {
 	
+	git::clone { 'https://github.com/tnh/simple-sinatra-app':
+		path => '/var/www',
+		dir => $site_name,
+	}
+
 	exec { 'site-install':
 		cwd => "/var/www/${site_name}",
 		path => "/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
@@ -14,7 +19,7 @@ class simple-deployment {
 			"USER=www-data",
 		],
 		require => [
-			File["/var/www/${site_name}"],
+			Git::Clone['https://github.com/tnh/simple-sinatra-app'],
 			Package['bundler'], 
 			Class['ruby'], 
 		],
