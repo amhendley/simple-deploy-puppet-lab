@@ -7,11 +7,17 @@ class simple-deployment {
 	
 	exec { 'site-install':
 		cwd => "/var/www/simple-deployment",
-		command => '/usr/local/bin/bundle install',
+		path => "/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+		command => 'bundle install',
+		provider => shell,
 		user => "root",
 		group => "root",
 		logoutput => true,
-		environment => "HOME=/root",
+		environment => [
+			"HOME=/root",
+			"LOGNAME=root",
+			"USER=root",
+		],
 		require => [
 			Package['bundler'], 
 			Class['ruby'], 
