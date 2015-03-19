@@ -1,12 +1,7 @@
 class simple-deployment {
 	
-	git::clone { 'https://github.com/tnh/simple-sinatra-app':
-		path => '/var/www',
-		dir => $site_name,
-	}
-	
 	exec { 'site-install':
-		cwd => "/var/www/simple-deployment",
+		cwd => "/var/www/${site_name}",
 		path => "/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
 		command => 'bundle install',
 		provider => shell,
@@ -19,6 +14,7 @@ class simple-deployment {
 			"USER=www-data",
 		],
 		require => [
+			File["/var/www/${site_name}"],
 			Package['bundler'], 
 			Class['ruby'], 
 		],
@@ -44,7 +40,10 @@ class simple-deployment {
 	service { 'simple-deployment-daemon':
 		ensure => running,
 		enable => true,
-		require => File['/etc/init.d/simple-deployment-daemon'],
+		require => [
+			Exec['site-install'], 
+			File['/etc/init.d/simple-deployment-daemon'],
+		],
 	}
 	
 }

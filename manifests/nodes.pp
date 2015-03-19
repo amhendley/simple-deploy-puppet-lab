@@ -6,6 +6,11 @@ node 'puppet-lab' {
 	include nginx
 	include ruby
 
+	git::clone { 'https://github.com/tnh/simple-sinatra-app':
+		path => '/var/www',
+		dir => $site_name,
+	}
+	
 	file { "/etc/nginx/sites-available/${site_name}":
 		require => [
 			Package['nginx'],
