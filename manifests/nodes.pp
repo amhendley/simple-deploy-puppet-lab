@@ -5,6 +5,13 @@ node 'puppet-lab' {
 	include simple-deployment
 	include nginx
 	include ruby
+	
+	file { '/var/www':
+		ensure => directory,
+		owner => 'wwwdata',
+		group => 'wwwdata',
+		mode => 774,
+	}
 
 	file { "/etc/nginx/sites-available/${site_name}":
 		require => [

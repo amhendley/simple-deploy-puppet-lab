@@ -19,6 +19,7 @@ class simple-deployment {
 			"USER=www-data",
 		],
 		require => [
+			File['/var/www'],
 			Git::Clone['https://github.com/tnh/simple-sinatra-app'],
 			Package['bundler'], 
 			Class['ruby'], 
