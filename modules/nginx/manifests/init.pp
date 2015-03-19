@@ -21,8 +21,8 @@ class nginx {
 
 	file { '/var/www':
 		ensure => directory,
-		owner => 'wwwdata',
-		group => 'wwwdata',
+		owner => 'www-data',
+		group => 'www-data',
 		mode => 774,
 	}
 	
