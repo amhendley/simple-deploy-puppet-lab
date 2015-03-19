@@ -20,7 +20,10 @@ class nginx {
 	}
 
 	file { '/var/www':
-		ensure => "directory",
+		ensure => directory,
+		owner => 'wwwdata',
+		group => 'wwwdata',
+		mode => 774,
 	}
 	
 }
