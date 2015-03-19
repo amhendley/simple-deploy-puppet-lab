@@ -10,13 +10,13 @@ class simple-deployment {
 		path => "/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
 		command => 'bundle install',
 		provider => shell,
-		user => "root",
-		group => "root",
+		user => "www-data",
+		group => "www-data",
 		logoutput => true,
 		environment => [
 			"HOME=/root",
-			"LOGNAME=root",
-			"USER=root",
+			"LOGNAME=www-data",
+			"USER=www-data",
 		],
 		require => [
 			Package['bundler'], 
