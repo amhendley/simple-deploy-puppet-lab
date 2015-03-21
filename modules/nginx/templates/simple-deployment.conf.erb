@@ -7,7 +7,7 @@ server {
 	server_name localhost;
 	charset UTF-8;
 
-	access_log logs/simple-deployment.com.access.log;
+	access_log /var/log/nginx/simple-deployment.com.access.log;
 
 	location / {
 		proxy_pass			http://upstream_application;
