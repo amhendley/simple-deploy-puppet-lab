@@ -15,8 +15,8 @@ class simple-deployment {
 		logoutput => true,
 		environment => [
 			"HOME=/root",
-			"LOGNAME=root",
-			"USER=root",
+			"LOGNAME=www-data",
+			"USER=www-data",
 		],
 		require => [
 			File['/var/www'],

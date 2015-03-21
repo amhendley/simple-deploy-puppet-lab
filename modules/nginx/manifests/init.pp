@@ -23,7 +23,7 @@ class nginx {
 		ensure => directory,
 		owner => 'www-data',
 		group => 'www-data',
-		mode => 774,
+		mode => 775,
 	}
 	
 }
