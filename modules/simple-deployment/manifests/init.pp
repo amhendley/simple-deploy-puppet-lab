@@ -8,7 +8,7 @@ class simple-deployment {
 	exec { 'site-install':
 		cwd => "/var/www/${site_name}",
 		path => "/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
-		command => 'bundle install --deployment',
+		command => 'bundle install',
 		provider => shell,
 		user => "www-data",
 		group => "www-data",
