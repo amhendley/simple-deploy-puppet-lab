@@ -10,25 +10,25 @@ class ruby {
 		require => Package['ruby2.0'],
 	}
 
-	package { 'ruby-rack':
+	package { 'rack':
 		ensure   => 'installed',
 		provider => 'gem',
 		require => Package['ruby2.0'],
 	}
 
-	package { 'ruby-rack-protection':
+	package { 'rack-protection':
 		ensure   => 'installed',
 		provider => 'gem',
 		require => Package['ruby2.0'],
 	}
 
-	package { 'ruby-tilt':
+	package { 'tilt':
 		ensure   => 'installed',
 		provider => 'gem',
 		require => Package['ruby2.0'],
 	}
 
-	package { 'ruby-sinatra':
+	package { 'sinatra':
 		ensure   => 'installed',
 		provider => 'gem',
 		require => Package['ruby2.0'],
