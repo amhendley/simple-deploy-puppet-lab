@@ -26,11 +26,18 @@ class simple-deployment {
 		],
 	}	
 	
+	file { '/usr/bin/simple-deployment.rb':
+		ensure => file,
+		content => template('simple-deployment/exec-simple-deployment.rb.erb'),
+		mode => 777,
+		require => Exec['site-install'],
+	}	
+
 	file { '/usr/bin/simple-deployment':
 		ensure => file,
 		content => template('simple-deployment/exec-simple-deployment'),
 		mode => 777,
-		require => Exec['site-install'],
+		require => File['/usr/bin/simple-deployment.rb'],
 	}	
 
 	file { '/etc/init.d/simple-deployment-daemon':

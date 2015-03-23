@@ -1,0 +1,7 @@
+require 'bundler'
+
+Bundler.with_clean_env do
+        Dir.chdir "/var/www/simple-deployment" do
+               `bundle exec rackup -D`
+        end
+end

@@ -1,4 +1,3 @@
 #! /bin/sh
 
-cd /var/www/simple-deployment
-sudo -u www-data /usr/local/bin/bundle exec rackup
+ruby /usr/bin/simple-deployment.rb
