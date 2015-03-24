@@ -9,33 +9,53 @@ class ruby {
 		require => Package['ruby2.0'],
 	}
 
+	file { '/var/lib/gems/2.1.0/cache':
+		mod => 777,
+	}
+	
 	package { 'bundler':
 		ensure   => 'installed',
 		provider => 'gem',
-		require => Package['ruby2.0'],
+		require => [
+			Package['ruby2.0'],
+			File['/var/lib/gems/2.1.0/cache'],
+		],
 	}
 
 	package { 'rack':
 		ensure   => 'installed',
 		provider => 'gem',
-		require => Package['ruby2.0'],
+		require => [
+			Package['ruby2.0'],
+			File['/var/lib/gems/2.1.0/cache'],
+		],
 	}
 
 	package { 'rack-protection':
 		ensure   => 'installed',
 		provider => 'gem',
-		require => Package['ruby2.0'],
+		require => [
+			Package['ruby2.0'],
+			File['/var/lib/gems/2.1.0/cache'],
+		],
 	}
 
 	package { 'tilt':
 		ensure   => 'installed',
 		provider => 'gem',
-		require => Package['ruby2.0'],
+		require => [
+			Package['ruby2.0'],
+			File['/var/lib/gems/2.1.0/cache'],
+		],
 	}
 
 	package { 'sinatra':
 		ensure   => 'installed',
-		require => Package['ruby2.0'],
+		provider => 'gem',
+		require => [
+			Package['ruby2.0'],
+			File['/var/lib/gems/2.1.0/cache'],
+		],
 	}
 	
 	package { 'unicorn':
