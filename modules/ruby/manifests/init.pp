@@ -3,6 +3,11 @@ class ruby {
 	package { 'ruby2.0':
 		ensure => installed,
 	}
+	
+	package { 'ruby-dev':
+		ensure => installed,
+		require => Package['ruby2.0'],
+	}
 
 	package { 'bundler':
 		ensure   => 'installed',
@@ -37,6 +42,6 @@ class ruby {
 	package { 'unicorn':
 		ensure => 'installed',
 		provider => 'gem',
-		require => Package['ruby2.0'],
+		require => Package['ruby-dev'],
 	}
 }
