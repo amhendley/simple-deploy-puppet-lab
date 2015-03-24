@@ -4,7 +4,7 @@ class ruby {
 		ensure => installed,
 	}
 	
-	package { 'ruby-dev':
+	package { 'ruby2.0-dev':
 		ensure => installed,
 		require => Package['ruby2.0'],
 	}
@@ -42,6 +42,6 @@ class ruby {
 	package { 'unicorn':
 		ensure => 'installed',
 		provider => 'gem',
-		require => Package['ruby-dev'],
+		require => Package['ruby2.0-dev'],
 	}
 }
