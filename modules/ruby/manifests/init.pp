@@ -34,4 +34,9 @@ class ruby {
 		require => Package['ruby2.0'],
 	}
 	
+	package { 'unicorn':
+		ensure => 'installed',
+		provider => 'gem',
+		require => Package['ruby2.0'],
+	}
 }

@@ -21,10 +21,19 @@ class simple-deployment {
 		require => [
 			File['/var/www'],
 			Git::Clone['https://github.com/tnh/simple-sinatra-app'],
-			Package['bundler'], 
-			Class['ruby'], 
+			Package['bundler'],
 		],
 	}	
+	
+	file { '/var/www/simple-deployment/unicorn-launcher.rb':
+		ensure => file,
+		content => template('simple-deployment/unicorn.rb.erb'),
+		mode => 440,
+		require => [
+			Exec['site-install'],
+			Package['unicorn'],
+		],
+	}
 	
 	file { '/usr/bin/simple-deployment.rb':
 		ensure => file,
@@ -37,7 +46,10 @@ class simple-deployment {
 		ensure => file,
 		content => template('simple-deployment/exec-simple-deployment'),
 		mode => 777,
-		require => File['/usr/bin/simple-deployment.rb'],
+		require => [
+			File['/var/www/simple-deployment/unicorn-launcher.rb'],
+			Exec['site-install'],
+		],
 	}	
 
 	file { '/etc/init.d/simple-deployment-daemon':
