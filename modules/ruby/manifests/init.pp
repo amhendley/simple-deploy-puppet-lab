@@ -36,6 +36,7 @@ class ruby {
 	package { 'sinatra':
 		ensure   => 'installed',
 		provider => 'gem',
+		install_options => "-v '1.4.5'",
 		require => Package['ruby2.0'],
 	}
 	

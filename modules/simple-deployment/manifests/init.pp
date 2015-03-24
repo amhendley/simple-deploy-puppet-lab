@@ -58,7 +58,7 @@ class simple-deployment {
 		mode => 777,
 		require => [
 			Exec['site-install'], 
-			File['/usr/bin/simple-deployment']
+			File['/var/www/simple-deployment/unicorn-launcher.rb']
 		],
 	}	
 
