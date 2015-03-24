@@ -41,7 +41,6 @@ class ruby {
 	
 	package { 'unicorn':
 		ensure => 'installed',
-		provider => 'gem',
 		require => Package['ruby2.0-dev'],
 	}
 }
