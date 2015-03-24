@@ -10,7 +10,7 @@ class ruby {
 	}
 
 	file { '/var/lib/gems/2.1.0/cache':
-		mod => 777,
+		mode => 777,
 	}
 	
 	package { 'bundler':
