@@ -11,6 +11,7 @@ class simple-deployment {
 		require => [
 			Exec['site-install'], 
 			File['/etc/init.d/simple-deployment-daemon'],
+			File["/etc/nginx/sites-enabled/${site_name}"],
 		],
 	}
 	
@@ -60,17 +61,9 @@ class simple-deployment {
 		ensure => link,
 		target => "/etc/nginx/sites-available/${site_name}",
 		require => [
-			Service['simple-deployment-daemon'], 
 			File["/etc/nginx/sites-available/${site_name}"]
 		],
 		notify => Service['nginx'],
-	}	
-
-	file { '/usr/bin/simple-deployment.rb':
-		ensure => file,
-		content => template('simple-deployment/exec-simple-deployment.rb.erb'),
-		mode => 777,
-		require => Exec['site-install'],
 	}	
 
 	file { '/usr/bin/simple-deployment':
