@@ -2,4 +2,4 @@
 
 cd /var/www/simple-deployment
 
-unicorn -c unicorn-launcher.rb -D
+bundle exec rackup -D

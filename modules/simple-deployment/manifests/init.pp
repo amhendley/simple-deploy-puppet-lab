@@ -5,18 +5,27 @@ class simple-deployment {
 		dir => $site_name,
 	}
 
+	service { 'simple-deployment-daemon':
+		ensure => running,
+		enable => true,
+		require => [
+			Exec['site-install'], 
+			File['/etc/init.d/simple-deployment-daemon'],
+		],
+	}
+	
 	exec { 'site-install':
 		cwd => "/var/www/${site_name}",
 		path => "/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
 		command => 'bundle install',
 		provider => shell,
-		user => "www-data",
-		group => "www-data",
+		user => "root",
+		group => "root",
 		logoutput => true,
 		environment => [
 			"HOME=/root",
-			"LOGNAME=www-data",
-			"USER=www-data",
+			"LOGNAME=root",
+			"USER=root",
 		],
 		require => [
 			File['/var/www'],
@@ -25,16 +34,38 @@ class simple-deployment {
 		],
 	}	
 	
-	file { '/var/www/simple-deployment/unicorn-launcher.rb':
+	file { '/etc/init.d/simple-deployment-daemon':
 		ensure => file,
-		content => template('simple-deployment/unicorn.rb.erb'),
-		mode => 440,
+		content => template('simple-deployment/simple-deployment-daemon'),
+		mode => 777,
+		require => Exec['site-install'], 
+	}	
+
+	file { "/etc/nginx/sites-available/${site_name}":
 		require => [
+			Package['nginx'],
+			File['/var/www'],
+			Service['simple-deployment-daemon'],
+		],
+		ensure => file,
+		content => template('simple-deployment/nginx-site.conf.erb'),
+		notify => Service['nginx'],
+		require => [
+			Service['nginx'],
 			Exec['site-install'],
-			Package['unicorn'],
 		],
 	}
 	
+	file { "/etc/nginx/sites-enabled/${site_name}":
+		ensure => link,
+		target => "/etc/nginx/sites-available/${site_name}",
+		require => [
+			Service['simple-deployment-daemon'], 
+			File["/etc/nginx/sites-available/${site_name}"]
+		],
+		notify => Service['nginx'],
+	}	
+
 	file { '/usr/bin/simple-deployment.rb':
 		ensure => file,
 		content => template('simple-deployment/exec-simple-deployment.rb.erb'),
@@ -46,29 +77,7 @@ class simple-deployment {
 		ensure => file,
 		content => template('simple-deployment/exec-simple-deployment'),
 		mode => 777,
-		require => [
-			File['/var/www/simple-deployment/unicorn-launcher.rb'],
-			Exec['site-install'],
-		],
+		require => Exec['site-install'],
 	}	
 
-	file { '/etc/init.d/simple-deployment-daemon':
-		ensure => file,
-		content => template('simple-deployment/simple-deployment-daemon'),
-		mode => 777,
-		require => [
-			Exec['site-install'], 
-			File['/var/www/simple-deployment/unicorn-launcher.rb']
-		],
-	}	
-
-	service { 'simple-deployment-daemon':
-		ensure => running,
-		enable => true,
-		require => [
-			Exec['site-install'], 
-			File['/etc/init.d/simple-deployment-daemon'],
-		],
-	}
-	
 }
