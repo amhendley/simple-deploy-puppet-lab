@@ -1,3 +1,6 @@
+$site_name = 'simple-deployment'
+$site_domain = 'simple-deployment.com'
+
 class simple-deployment {
 	
 	git::clone { 'https://github.com/tnh/simple-sinatra-app':
