@@ -70,8 +70,8 @@ class simple-deployment {
 		mode => 777,
 		notify => Service['simpledeployd'],
 		require => [
-			Service['simpledeployd'],
 			Exec['site-install'],
+			File['/etc/init.d/simpledeployd'],
 		],
 	}	
 
