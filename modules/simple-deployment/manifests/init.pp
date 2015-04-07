@@ -8,12 +8,12 @@ class simple-deployment {
 		dir => $site_name,
 	}
 
-	service { 'simple-deployment-daemon':
+	service { 'simpledeployd':
 		ensure => running,
 		enable => true,
 		require => [
 			Exec['site-install'], 
-			File['/etc/init.d/simple-deployment-daemon'],
+			File['/etc/init.d/simpledeployd'],
 			File["/etc/nginx/sites-enabled/${site_name}"],
 		],
 	}
@@ -38,7 +38,7 @@ class simple-deployment {
 		],
 	}	
 	
-	file { '/etc/init.d/simple-deployment-daemon':
+	file { '/etc/init.d/simpledeployd':
 		ensure => file,
 		content => template('simple-deployment/simple-deployment-daemon'),
 		mode => 777,

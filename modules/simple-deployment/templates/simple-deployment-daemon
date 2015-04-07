@@ -1,6 +1,6 @@
 #! /bin/sh
 ### BEGIN INIT INFO
-# Provides:          simple-deployment-daemon
+# Provides:          simpledeployd
 # Required-Start:    $remote_fs $syslog
 # Required-Stop:     $remote_fs $syslog
 # Default-Start:     2 3 4 5
@@ -17,7 +17,7 @@
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/share/bin:/usr/local/bin
 DESC="simple-deployment daemon"
-NAME=simple-deployment-daemon
+NAME=simpledeployd
 DAEMON=/usr/bin/simple-deployment
 DAEMON_ARGS=""
 PIDFILE=/var/run/$NAME.pid
