@@ -2,4 +2,4 @@
 
 cd /var/www/simple-deployment
 
-bundle exec rackup -D
+bundle exec rackup --pid /var/run/simple-deployment-daemon.pid -D
