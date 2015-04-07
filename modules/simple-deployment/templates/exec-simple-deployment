@@ -1,5 +1,14 @@
 #! /bin/sh
 
-cd /var/www/simple-deployment
-
-bundle exec rackup --pid /var/run/simpledeployd.pid -D
+case "$1" in
+	--shutdown)
+		pid=`cat /var/run/simpledeployd.pid`
+		echo "Shutting down simpledeployd..."
+		kill $pid
+		;;
+	*)
+		echo "Starting application simpledeployd..."
+		cd /var/www/simple-deployment
+		bundle exec rackup --pid /var/run/simpledeployd.pid -D
+		;;
+esac
