@@ -12,3 +12,5 @@ case "$1" in
 		bundle exec rackup --pid /var/run/simpledeployd.pid -D
 		;;
 esac
+
+return 0
