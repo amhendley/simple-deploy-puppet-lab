@@ -52,7 +52,6 @@ class simple-deployment {
 		require => [
 			Package['nginx'],
 			File['/var/www'],
-			Service['simple-deployment-daemon'],
 		],
 	}
 	
