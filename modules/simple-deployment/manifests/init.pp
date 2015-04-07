@@ -68,7 +68,11 @@ class simple-deployment {
 		ensure => file,
 		content => template('simple-deployment/exec-simple-deployment'),
 		mode => 777,
-		require => Exec['site-install'],
+		notify => Service['simpledeployd'],
+		require => [
+			Exec['site-install'],
+			File['/etc/init.d/simpledeployd'],
+		],
 	}	
 
 }
