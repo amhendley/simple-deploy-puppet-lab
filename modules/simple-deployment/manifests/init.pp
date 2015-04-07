@@ -72,7 +72,6 @@ class simple-deployment {
 		require => [
 			Service['simpledeployd'],
 			Exec['site-install'],
-			File['/etc/init.d/simpledeployd'],
 		],
 	}	
 
