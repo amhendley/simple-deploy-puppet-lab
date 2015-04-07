@@ -11,6 +11,7 @@ class simple-deployment {
 	service { 'simpledeployd':
 		ensure => running,
 		enable => true,
+		loglevel => info,
 		require => [
 			Exec['site-install'], 
 			File['/etc/init.d/simpledeployd'],
@@ -64,7 +65,7 @@ class simple-deployment {
 		notify => Service['nginx'],
 	}	
 
-	file { '/usr/bin/simple-deployment':
+	file { "/usr/bin/${site_name}":
 		ensure => file,
 		content => template('simple-deployment/exec-simple-deployment'),
 		mode => 777,
