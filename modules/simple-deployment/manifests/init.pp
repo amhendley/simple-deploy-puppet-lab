@@ -46,17 +46,13 @@ class simple-deployment {
 	}	
 
 	file { "/etc/nginx/sites-available/${site_name}":
-		require => [
-			Package['nginx'],
-			File['/var/www'],
-			Service['simple-deployment-daemon'],
-		],
 		ensure => file,
 		content => template('simple-deployment/nginx-site.conf.erb'),
 		notify => Service['nginx'],
 		require => [
-			Service['nginx'],
-			Exec['site-install'],
+			Package['nginx'],
+			File['/var/www'],
+			Service['simple-deployment-daemon'],
 		],
 	}
 	
