@@ -10,7 +10,7 @@ Now any machine could be used to demonstrate this, but a nice clean machine imag
 
 As part of the virtual machine configuration, make sure that you enable an end point to the ```HTTP``` port ```80``` and map to port ```80``` for ease sake, so you can see your deployed application remotely.
 
-### Software
+### Packages
 Once you have your virtual machine up and running, some software to get things started will need to be installed.
 
 Firstly start by updating the base machine image with any pending updates
@@ -84,67 +84,100 @@ In the modules folder we need to create further folders to break up our required
         └── templates
 ```
 
-For each module, the manifest folder will need to contain an ```init.pp``` that Puppet will use as the definition of each of the modules.
+For each module, the manifest folder will need to contain an ```init.pp``` that Puppet will use as the definition of each of the modules.  Here is a high level overview of what each module manifest does.
 
 #### Module: git
 The manifest for the ```git``` module is largely thanks to Pindi Albert at http://www.pindi.us/blog/getting-started-puppet.
 
-```puppet
-# file: ./modules/git/manifests/init.pp
-
-class git {
-    package { 'git':
-        ensure => installed,
-    }
-}
-
-define git::clone ( $path, $dir) {
-    exec { "clone-$name-$path":
-        command => "/usr/bin/git clone $name $path/$dir",
-        creates => "$path/$dir",
-        require => File[$path],
-    }
-}
-```
-The class ```git``` just ensure that the package is installed. The definition ```git::clone``` is our function to perform the actual clone of the Sinatra application we wish to deploy.
+<table border=1 cellpadding=2 cellspacing=0 bordercolor=darkgray>
+	<tr>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>git</td>
+		<td>Class</td>
+		<td>The **git** manifest main class</td>
+	</tr>
+	<tr>
+		<td>git</td>
+		<td>Package</td>
+		<td>Ensures that the package is installed</td>
+	</tr>
+	<tr>
+		<td>git::clone</td>
+		<td>Definition</td>
+		<td>Helps perform the actual clone of a Git repository</td>
+	</tr>
+</table>
 
 #### Module: nginx
+For help provide a abstraction layer to the actual application, I used ```nginx``` to act as my proxy forwarding server.
 
-```puppet
-# file: ./modules/nginx/manifests/init.pp
-
-# Manage nginx webserver
-class nginx {
-	package { 'apache2.2-common':
-		ensure => absent,
-	}
-	
-	package { 'nginx':
-		ensure => installed,
-		require => Package['apache2.2-common'],
-	}
-	
-	service { 'nginx':
-		ensure => running,
-		require => Package['nginx'],
-		enable => true,
-	}
-	
-	file { '/etc/nginx/sites-enabled/default':
-		ensure => absent,
-	}
-
-	file { '/var/www':
-		ensure => directory,
-		owner => 'www-data',
-		group => 'www-data',
-		mode => 775,
-	}
-	
-}
-```
+<table border=1 cellpadding=2 cellspacing=0 bordercolor=darkgray>
+	<tr>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>nginx</td>
+		<td>Class</td>
+		<td>The **nginx** manifest main class</td>
+	</tr>
+	<tr>
+		<td>apache2.2-common</td>
+		<td>Package</td>
+		<td>Ensures that the package is NOT installed as this can cause conflicts with nginx</td>
+	</tr>
+	<tr>
+		<td>nginx</td>
+		<td>Package</td>
+		<td>Ensures that the **nginx** package is installed</td>
+	</tr>
+	<tr>
+		<td>nginx</td>
+		<td>Service</td>
+		<td>Ensures that the service is installed and running</td>
+	</tr>
+	<tr>
+		<td>/etc/nginx/sites-enabled/default</td>
+		<td>File</td>
+		<td>We do not want the default site configuration linked too to disable it</td>
+	</tr>
+	<tr>
+		<td>/var/www</td>
+		<td>File</td>
+		<td>Initial default location of web site files</td>
+	</tr>
+</table>
 
 #### Module: ruby
+The **ruby** manifest helps establish some core packages that will be required by the ***simple-deployment*** module.
+
+<table border=1 cellpadding=2 cellspacing=0 bordercolor=darkgray>
+	<tr>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>ruby</td>
+		<td>Class</td>
+		<td>The <b>ruby</b> manifest main class</td>
+	</tr>
+	<tr>
+		<td>ruby2.0</td>
+		<td>Package</td>
+		<td>Ensures that the core package for Ruby is installed.</td>
+	</tr>
+	<tr>
+		<td>bundler</td>
+		<td>Package</td>
+		<td>Ensures that the Ruby gem **bundler** is installed using the gem provider</td>
+	</tr>
+</table>
 
 
 #### Module: simple-deployment
