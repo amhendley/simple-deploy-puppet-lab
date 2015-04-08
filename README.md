@@ -257,7 +257,24 @@ As well as the **simple-deployment** manifest, there are three template files th
 	</tr>
 </table>
 
-#### Final file structure
+## Site deployment manifests
+Now that we have all our required modules, we need to now define where we are going to deploy this to and what modules to include in the deployment
+
+### Manifest: nodes.pp
+???
+
+### Manifest: sites.pp
+???
+
+## Automating the process
+
+### Script: apply
+???
+
+### Script: pull-updates
+???
+
+## Final file structure
 In the end with have a file structure that looks something like that follows.
 
 ```
@@ -290,3 +307,27 @@ In the end with have a file structure that looks something like that follows.
 ├── pull-updates
 └── README.md
 ```
+
+##References
+I must acknowledge the sources of information used while attempting to construct this lab.
+
+**General**
+- http://www.puppetcookbook.com
+- https://docs.puppetlabs.com/references/latest/type.html
+- https://docs.puppetlabs.com/puppet/2.7/reference/lang_resources.html
+
+**Setting use of Git in Puppet**
+- http://www.pindi.us/blog/getting-started-puppet
+
+**How to deploy Ruby rack with nginx**
+- http://stackoverflow.com/questions/13030149/how-to-deploy-ruby-rack-app-with-nginx
+
+**Why Puppet cannot handle bundle exec**
+- http://stackoverflow.com/questions/18309990/why-my-puppet-can-not-handle-bundle-exec
+- http://serverfault.com/questions/597219/net-ads-join-fails-in-puppet-exec-but-runs-ok-directly-from-command-line
+
+**Bundle install reference**
+- https://github.com/mayflower/puppet-bundler/blob/mayflower/manifests/install.pp
+
+**Service script exit return issue in Ubuntu**
+- https://projects.puppetlabs.com/issues/12773
