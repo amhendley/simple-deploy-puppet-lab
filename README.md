@@ -89,7 +89,7 @@ For each module, the manifest folder will need to contain an ```init.pp``` that 
 #### Module: git
 The manifest for the ```git``` module is largely thanks to Pindi Albert at http://www.pindi.us/blog/getting-started-puppet.
 
-<table border=1 cellpadding=2 cellspacing=0 bordercolor=darkgray>
+<table border=1 cellpadding=2 cellspacing=0 bordercolor=darkgray width=100%>
 	<tr>
 		<th>Name</th>
 		<th>Type</th>
@@ -115,7 +115,7 @@ The manifest for the ```git``` module is largely thanks to Pindi Albert at http:
 #### Module: nginx
 For help provide a abstraction layer to the actual application, I used ```nginx``` to act as my proxy forwarding server.
 
-<table border=1 cellpadding=2 cellspacing=0 bordercolor=darkgray>
+<table border=1 cellpadding=2 cellspacing=0 bordercolor=darkgray width=100%>
 	<tr>
 		<th>Name</th>
 		<th>Type</th>
@@ -156,7 +156,7 @@ For help provide a abstraction layer to the actual application, I used ```nginx`
 #### Module: ruby
 The **ruby** manifest helps establish some core packages that will be required by the ***simple-deployment*** module.
 
-<table border=1 cellpadding=2 cellspacing=0 bordercolor=darkgray>
+<table border=1 cellpadding=2 cellspacing=0 bordercolor=darkgray width=100%>
 	<tr>
 		<th>Name</th>
 		<th>Type</th>
@@ -181,13 +181,84 @@ The **ruby** manifest helps establish some core packages that will be required b
 
 
 #### Module: simple-deployment
+The **simple-deployment** manifest is the main module for deploying the application.
 
+<table border=1 cellpadding=2 cellspacing=0 bordercolor=darkgray width=100%>
+	<tr>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>$site_name</td>
+		<td>Variable</td>
+		<td>Variable containing the common name of the application</td>
+	</tr>
+	<tr>
+		<td>$site_domain</td>
+		<td>Variable</td>
+		<td>Variable containing the site address name</td>
+	</tr>
+	<tr>
+		<td>git::clone 'https://github.com/tnh/simple-sinatra-app'</td>
+		<td>Definition Call</td>
+		<td>Call to the git::clone definition to clone the Sinatra appliaction from GitHub. By doing it this way, we can seperate the application code from the deployment configuration code it this was the desired source stored model.</td>
+	</tr>
+	<tr>
+		<td>simpledeployd</td>
+		<td>Service</td>
+		<td>Ensures that the service to start and stop the application is installed and running</td>
+	</tr>
+	<tr>
+		<td>site-install</td>
+		<td>Exec</td>
+		<td>Executes a bundle install from the cloned application</td>
+	</tr>
+	<tr>
+		<td>/etc/init.d/simpledeployd</td>
+		<td>File</td>
+		<td>Upstart shell script</td>
+	</tr>
+	<tr>
+		<td>/etc/nginx/sites-available/${site_name}</td>
+		<td>File</td>
+		<td>Configuration file for the nginx web site</td>
+	</tr>
+	<tr>
+		<td>/etc/nginx/sites-enabled/${site_name}</td>
+		<td>File</td>
+		<td>Creates the symbolic link to the available site configuration file for the application</td>
+	</tr>
+	<tr>
+		<td>/usr/bin/${site_name}</td>
+		<td>File</td>
+		<td>Shell script that is called by the <b>simpledeployd</b> Upstart service</td>
+	</tr>
+</table>
 
+As well as the **simple-deployment** manifest, there are three template files that are deployed.
 
+<table border=1 cellpadding=2 cellspacing=0 bordercolor=darkgray width=100%>
+	<tr>
+		<th>Name</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>exec-simple-deployment</td>
+		<td>Shell script that is used for the File[/usr/bin/${site_name}]</td>
+	</tr>
+	<tr>
+		<td>nginx-site.conf.erb</td>
+		<td>The configuration file used for the File[/etc/nginx/sites-available/${site_name}]</td>
+	</tr>
+	<tr>
+		<td>simple-deployment-daemon</td>
+		<td>Shell script that is used for the File[/etc/init.d/simpledeployd]</td>
+	</tr>
+</table>
 
-
-
-
+#### Final file structure
+In the end with have a file structure that looks something like that follows.
 
 ```
 .
