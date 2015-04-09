@@ -38,7 +38,7 @@ Next, create a new repository by selecting one of the option on your landing pag
 On the command line;
 
 ```bash
-clone https://github.com/<github_name>/puppt-lab.git
+clone https://github.com/<github_name>/puppet-lab.git
 cd puppt-lab
 ```
 
@@ -55,7 +55,7 @@ core.symlinks=false
 core.repositoryformatversion=0
 core.filemode=true
 core.logallrefupdates=true
-remote.origin.url=https://github.com/<github_name>/puppt-lab.git
+remote.origin.url=https://github.com/<github_name>/puppet-lab.git
 remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
 branch.master.remote=origin
 branch.master.merge=refs/heads/master
@@ -63,8 +63,13 @@ branch.master.merge=refs/heads/master
 
 All the other key value pairs are from when the repository was cloned.
 
+#### Saving changes
+With any changes made, it always pay to commit your changes as often as possible. With Git, this is no different. With Git you would *add*, then *commit*, then *push* your changes back up the the source, which in this case is our GitHub repository. As this is just a simple repository, I am only working of the *master* branch.
+
+Now all of this can be done from the command line, but if you are a GUI type of user, then for your Linux desktop, I have found CollabNet's GitEye one of the better tools around, even though it may be a bit bloated running in the Java based Eclipse IDE.
+
 ###Puppet files
-Now we have a project folder called ```puppet-lab```. Next we need to start by creating our initial folder structure. There are two main folders we require here called ``` manifests``` and ```modules```.
+Now that we have a project (working) folder called ```puppet-lab```. Next we need to start by creating our initial folder structure. There are two main folders we require here called ``` manifests``` and ```modules```.
 
 In the modules folder we need to create further folders to break up our required  packages, services and files. The folders we need are ```git```, ```nginx```, ```ruby``` and ```simple-deployment```. In each of these create their own ```manifests``` folder. Lastly a sub-folder under ```./modules/simple-deployment``` called ```templates```. We should have a folder structure that looks like the following.
 
@@ -261,18 +266,19 @@ As well as the **simple-deployment** manifest, there are three template files th
 Now that we have all our required modules, we need to now define where we are going to deploy this to and what modules to include in the deployment
 
 ### Manifest: nodes.pp
-???
+For the lab, the file contains a single node reference the includes the modules required for this deployment, primarily being **nginx**, **ruby** & **simple-deployment**.
 
 ### Manifest: sites.pp
-???
+This file imports the *node.pp* file for processing.
 
 ## Automating the process
+To help automate this solution as a one command process there are two scripts that can called, with one that can be used to execute that configuration file update and execute the puppet deployment.
 
 ### Script: apply
-???
+This shell script performs the actual Puppet apply command. This has been create if a refresh of the configuration files is not required.
 
 ### Script: pull-updates
-???
+This shell script performs a ```git pull``` to update the Puppet configuration files, then calls the ***apply*** script to initiate the Puppet apply. 
 
 ## Final file structure
 In the end with have a file structure that looks something like that follows.
@@ -307,8 +313,14 @@ In the end with have a file structure that looks something like that follows.
 ├── pull-updates
 └── README.md
 ```
+## Notes
+As a real novice to the ways in which **Ruby** works with *Bundler* and the *Rack* gem, I did find this quite a challenge understanding how *Bundler* and the ```rackup``` command worked. In the end it was a simple matter of having the ```rackup``` command create a process ID file which can then be used by the Upstart service **simpledeployd** and the **/usr/bin/simple-deployment** script to control the starting and stopping of the application.
 
-##References
+With the service **simpledeployd** script, please note that the *status* code has been slightly modified to check for the process ID file instead of the daemon or service name.
+
+As for the controlling of the application, this is done in the shell script **/usr/bin/simple-deployment** where it uses the process ID to kill the application running process. One other thing that tripped me up here was the fact that I need to return the actual status code to tell Upstart if the application shutdown actually worked. Without this, the service stop would just fail. Check out the references for the solution I implemented.
+
+## References
 I must acknowledge the sources of information used while attempting to construct this lab.
 
 **General**
