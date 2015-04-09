@@ -336,13 +336,16 @@ I must acknowledge the sources of information used while attempting to construct
 
 **Why Puppet cannot handle bundle exec**
 - http://stackoverflow.com/questions/18309990/why-my-puppet-can-not-handle-bundle-exec
-- http://serverfault.com/questions/597219/net-ads-join-fails-in-puppet-exec-but-runs-ok-directly-from-command-line
+- http://serverfault.coms/questions/597219/net-ads-join-fails-in-puppet-exec-but-runs-ok-directly-from-command-line
 
 **Bundle install reference**
 - https://github.com/mayflower/puppet-bundler/blob/mayflower/manifests/install.pp
 
 **Service script exit return issue in Ubuntu**
 - https://projects.puppetlabs.com/issues/12773
+
+**Puppet 3 Beginner's Guide**
+- http://www.PacktPub.com
 
 **Git Version Control Cookbook**
 - http://www.PacktPub.com
