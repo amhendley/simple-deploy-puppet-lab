@@ -343,3 +343,6 @@ I must acknowledge the sources of information used while attempting to construct
 
 **Service script exit return issue in Ubuntu**
 - https://projects.puppetlabs.com/issues/12773
+
+**Git Version Control Cookbook**
+- http://www.PacktPub.com
